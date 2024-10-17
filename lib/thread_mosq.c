@@ -83,8 +83,7 @@ int mosquitto_loop_stop(struct mosquitto *mosq, bool force)
 
 #ifdef HAVE_PTHREAD_CANCEL
 	if(force){
-		COMPAT_pthread_cancel()
-(mosq->thread_id);
+		COMPAT_pthread_cancel(mosq->thread_id);
 	}
 #endif
 	COMPAT_pthread_join(mosq->thread_id, NULL);
