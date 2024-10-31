@@ -395,6 +395,11 @@ int packet__read(struct mosquitto *mosq)
 			/* Clients must send CONNECT as their first command. */
 			if(!(mosq->bridge) && state == mosq_cs_new && (byte&0xF0) != CMD_CONNECT){
 				return MOSQ_ERR_PROTOCOL;
+			}else if((byte&0xF0) == CMD_RESERVED){
+				if(mosq->protocol == mosq_p_mqtt5){
+					send__disconnect(mosq, MQTT_RC_PROTOCOL_ERROR, NULL);
+				}
+				return MOSQ_ERR_PROTOCOL;
 			}
 #endif
 		}else{

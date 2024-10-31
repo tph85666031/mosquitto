@@ -1,6 +1,10 @@
 2.0.21 - 2024-xx-xx
 ===================
 
+Broker:
+- Fix clients sending a RESERVED packet not being quickly disconnected.
+  Closes #2325.
+
 Client library:
 - Fix threads linking on Windows for static libmosquitto library
   Closes #3143
