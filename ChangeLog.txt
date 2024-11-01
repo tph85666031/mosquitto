@@ -4,6 +4,8 @@
 Broker:
 - Fix clients sending a RESERVED packet not being quickly disconnected.
   Closes #2325.
+- Fix `bind_interface` producing an error when used with an interface that has
+  an IPv6 link-local address and no other IPv6 addresses. Closes #2696.
 
 Client library:
 - Fix threads linking on Windows for static libmosquitto library
