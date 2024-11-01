@@ -90,7 +90,8 @@ RUN set -x && \
     chown -R mosquitto:mosquitto /mosquitto && \
     apk --no-cache add \
         ca-certificates \
-        cjson && \
+        cjson \
+        tzdata && \
     apk del build-deps && \
     rm -rf /build
 

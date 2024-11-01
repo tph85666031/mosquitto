@@ -13,6 +13,7 @@ Client library:
 
 Build:
 - Fix Windows builds not having websockets enabled.
+- Add tzdata to docker images
 
 
 2.0.20 - 2024-10-16
