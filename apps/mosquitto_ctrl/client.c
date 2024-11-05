@@ -127,7 +127,7 @@ int client_request_response(struct mosq_ctrl *ctrl)
 	int rc;
 	time_t start;
 
-	if(ctrl->cfg.cafile == NULL && ctrl->cfg.capath == NULL){
+	if(ctrl->cfg.cafile == NULL && ctrl->cfg.capath == NULL && !ctrl->cfg.tls_use_os_certs && ctrl->cfg.port != 8883 && !ctrl->cfg.psk){
 		fprintf(stderr, "Warning: You are running mosquitto_ctrl without encryption.\nThis means all of the configuration changes you are making are visible on the network, including passwords.\n\n");
 	}
 
