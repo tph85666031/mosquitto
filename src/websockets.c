@@ -578,6 +578,10 @@ static int callback_http(
 						return -1;
 					}
 					wlen = (size_t)rc;
+					/* while still active, extend timeout */
+					if(wlen){
+						lws_set_timeout(wsi, PENDING_TIMEOUT_HTTP_CONTENT, 10);
+					}
 					if(wlen < buflen){
 						if(fseek(u->fptr, (long)(buflen-wlen), SEEK_CUR) < 0){
 							fclose(u->fptr);
