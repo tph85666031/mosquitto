@@ -8,6 +8,9 @@ Broker:
   an IPv6 link-local address and no other IPv6 addresses. Closes #2696.
 - Fix mismatched wrapped/unwrapped memory alloc/free in properties. Closes #3192.
 
+Apps:
+- mosquitto_ctrl dynsec now also allows `-i` to specify a clientid as well as
+  `-c`. This matches the documentation which states `-i`. Closes #3219.
 Client library:
 - Fix threads linking on Windows for static libmosquitto library
   Closes #3143
