@@ -7,6 +7,7 @@ Broker:
 - Fix `bind_interface` producing an error when used with an interface that has
   an IPv6 link-local address and no other IPv6 addresses. Closes #2696.
 - Fix mismatched wrapped/unwrapped memory alloc/free in properties. Closes #3192.
+- Fix `allow_anonymous false` not being applied in local only mode. Closes #3198.
 
 Apps:
 - mosquitto_ctrl dynsec now also allows `-i` to specify a clientid as well as

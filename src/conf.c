@@ -636,9 +636,7 @@ int config__read(struct mosquitto__config *config, bool reload)
 	}
 
 	/* If auth/access options are set and allow_anonymous not explicitly set, disallow anon. */
-	if(config->local_only == true){
-		config->security_options.allow_anonymous = true;
-	}else{
+	if(config->local_only == false){
 		if(config->per_listener_settings){
 			for(i=0; i<config->listener_count; i++){
 				/* Default option if no security options set */
