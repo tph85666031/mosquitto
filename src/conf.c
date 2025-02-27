@@ -2243,17 +2243,14 @@ static int config__check(struct mosquitto__config *config)
 {
 	/* Checks that are easy to make after the config has been loaded. */
 
-	int i;
-
 #ifdef WITH_BRIDGE
-	int j;
 	struct mosquitto__bridge *bridge1, *bridge2;
 	char hostname[256];
 	size_t len;
 
 	/* Check for bridge duplicate local_clientid, need to generate missing IDs
 	 * first. */
-	for(i=0; i<config->bridge_count; i++){
+	for(int i=0; i<config->bridge_count; i++){
 		bridge1 = &config->bridges[i];
 
 		if(!bridge1->remote_clientid){
@@ -2280,9 +2277,9 @@ static int config__check(struct mosquitto__config *config)
 		}
 	}
 
-	for(i=0; i<config->bridge_count; i++){
+	for(int i=0; i<config->bridge_count; i++){
 		bridge1 = &config->bridges[i];
-		for(j=i+1; j<config->bridge_count; j++){
+		for(int j=i+1; j<config->bridge_count; j++){
 			bridge2 = &config->bridges[j];
 			if(!strcmp(bridge1->local_clientid, bridge2->local_clientid)){
 				log__printf(NULL, MOSQ_LOG_ERR, "Error: Bridge local_clientid "
@@ -2297,7 +2294,7 @@ static int config__check(struct mosquitto__config *config)
 
 	/* Default to auto_id_prefix = 'auto-' if none set. */
 	if(config->per_listener_settings){
-		for(i=0; i<config->listener_count; i++){
+		for(int i=0; i<config->listener_count; i++){
 			if(!config->listeners[i].security_options.auto_id_prefix){
 				config->listeners[i].security_options.auto_id_prefix = mosquitto__strdup("auto-");
 				if(!config->listeners[i].security_options.auto_id_prefix){
@@ -2316,6 +2313,26 @@ static int config__check(struct mosquitto__config *config)
 		}
 	}
 
+	/* Check for missing TLS cafile/capath/certfile/keyfile */
+	for(int i=0; i<config->listener_count; i++){
+		 bool cafile = !!config->listeners[i].cafile;
+		 bool capath = !!config->listeners[i].capath;
+		 bool certfile = !!config->listeners[i].certfile;
+		 bool keyfile = !!config->listeners[i].keyfile;
+
+		 if((certfile && !keyfile) || (!certfile && keyfile)){
+			 log__printf(NULL, MOSQ_LOG_ERR, "Error: Both certfile and keyfile must be provided to enable a TLS listener.");
+			 return MOSQ_ERR_INVAL;
+		 }
+		 if(cafile && !certfile){
+			 log__printf(NULL, MOSQ_LOG_ERR, "Error: cafile specified without certfile and keyfile.");
+			 return MOSQ_ERR_INVAL;
+		 }
+		 if(capath && !certfile){
+			 log__printf(NULL, MOSQ_LOG_ERR, "Error: capath specified without certfile and keyfile.");
+			 return MOSQ_ERR_INVAL;
+		 }
+	}
 	return MOSQ_ERR_SUCCESS;
 }
 
