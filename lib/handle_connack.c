@@ -32,27 +32,35 @@ Contributors:
 
 static void connack_callback(struct mosquitto *mosq, uint8_t reason_code, uint8_t connect_flags, const mosquitto_property *properties)
 {
+	void (*on_connect)(struct mosquitto *, void *userdata, int rc);
+	void (*on_connect_with_flags)(struct mosquitto *, void *userdata, int rc, int flags);
+	void (*on_connect_v5)(struct mosquitto *, void *userdata, int rc, int flags, const mosquitto_property *props);
+
 	log__printf(mosq, MOSQ_LOG_DEBUG, "Client %s received CONNACK (%d)", SAFE_PRINT(mosq->id), reason_code);
 	if(reason_code == MQTT_RC_SUCCESS){
 		mosq->reconnects = 0;
 	}
 	COMPAT_pthread_mutex_lock(&mosq->callback_mutex);
-	if(mosq->on_connect){
-		mosq->in_callback = true;
-		mosq->on_connect(mosq, mosq->userdata, reason_code);
-		mosq->in_callback = false;
-	}
-	if(mosq->on_connect_with_flags){
-		mosq->in_callback = true;
-		mosq->on_connect_with_flags(mosq, mosq->userdata, reason_code, connect_flags);
-		mosq->in_callback = false;
-	}
-	if(mosq->on_connect_v5){
-		mosq->in_callback = true;
-		mosq->on_connect_v5(mosq, mosq->userdata, reason_code, connect_flags, properties);
-		mosq->in_callback = false;
-	}
+	on_connect = mosq->on_connect;
+	on_connect_with_flags = mosq->on_connect_with_flags;
+	on_connect_v5 = mosq->on_connect_v5;
 	COMPAT_pthread_mutex_unlock(&mosq->callback_mutex);
+
+	if(on_connect){
+		mosq->in_callback = true;
+		on_connect(mosq, mosq->userdata, reason_code);
+		mosq->in_callback = false;
+	}
+	if(on_connect_with_flags){
+		mosq->in_callback = true;
+		on_connect_with_flags(mosq, mosq->userdata, reason_code, connect_flags);
+		mosq->in_callback = false;
+	}
+	if(on_connect_v5){
+		mosq->in_callback = true;
+		on_connect_v5(mosq, mosq->userdata, reason_code, connect_flags, properties);
+		mosq->in_callback = false;
+	}
 }
 
 

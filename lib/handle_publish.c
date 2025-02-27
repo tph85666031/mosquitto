@@ -120,20 +120,24 @@ int handle__publish(struct mosquitto *mosq)
 			(long)message->msg.payloadlen);
 
 	message->timestamp = mosquitto_time();
+	void (*on_message)(struct mosquitto *, void *userdata, const struct mosquitto_message *message);
+	void (*on_message_v5)(struct mosquitto *, void *userdata, const struct mosquitto_message *message, const mosquitto_property *props);
 	switch(message->msg.qos){
 		case 0:
 			COMPAT_pthread_mutex_lock(&mosq->callback_mutex);
-			if(mosq->on_message){
+			on_message = mosq->on_message;
+			on_message_v5 = mosq->on_message_v5;
+			COMPAT_pthread_mutex_unlock(&mosq->callback_mutex);
+			if(on_message){
 				mosq->in_callback = true;
-				mosq->on_message(mosq, mosq->userdata, &message->msg);
+				on_message(mosq, mosq->userdata, &message->msg);
 				mosq->in_callback = false;
 			}
 			if(mosq->on_message_v5){
 				mosq->in_callback = true;
-				mosq->on_message_v5(mosq, mosq->userdata, &message->msg, properties);
+				on_message_v5(mosq, mosq->userdata, &message->msg, properties);
 				mosq->in_callback = false;
 			}
-			COMPAT_pthread_mutex_unlock(&mosq->callback_mutex);
 			message__cleanup(&message);
 			mosquitto_property_free_all(&properties);
 			return MOSQ_ERR_SUCCESS;
@@ -141,17 +145,19 @@ int handle__publish(struct mosquitto *mosq)
 			util__decrement_receive_quota(mosq);
 			rc = send__puback(mosq, mid, 0, NULL);
 			COMPAT_pthread_mutex_lock(&mosq->callback_mutex);
-			if(mosq->on_message){
-				mosq->in_callback = true;
-				mosq->on_message(mosq, mosq->userdata, &message->msg);
-				mosq->in_callback = false;
-			}
-			if(mosq->on_message_v5){
-				mosq->in_callback = true;
-				mosq->on_message_v5(mosq, mosq->userdata, &message->msg, properties);
-				mosq->in_callback = false;
-			}
+			on_message = mosq->on_message;
+			on_message_v5 = mosq->on_message_v5;
 			COMPAT_pthread_mutex_unlock(&mosq->callback_mutex);
+			if(on_message){
+				mosq->in_callback = true;
+				on_message(mosq, mosq->userdata, &message->msg);
+				mosq->in_callback = false;
+			}
+			if(on_message_v5){
+				mosq->in_callback = true;
+				on_message_v5(mosq, mosq->userdata, &message->msg, properties);
+				mosq->in_callback = false;
+			}
 			message__cleanup(&message);
 			mosquitto_property_free_all(&properties);
 			return rc;

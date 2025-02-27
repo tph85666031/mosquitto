@@ -267,6 +267,9 @@ int mosquitto_disconnect_v5(struct mosquitto *mosq, int reason_code, const mosqu
 
 void do_client_disconnect(struct mosquitto *mosq, int reason_code, const mosquitto_property *properties)
 {
+	void (*on_disconnect)(struct mosquitto *, void *userdata, int rc);
+	void (*on_disconnect_v5)(struct mosquitto *, void *userdata, int rc, const mosquitto_property *props);
+
 	mosquitto__set_state(mosq, mosq_cs_disconnected);
 	net__socket_close(mosq);
 
@@ -287,17 +290,20 @@ void do_client_disconnect(struct mosquitto *mosq, int reason_code, const mosquit
 	COMPAT_pthread_mutex_unlock(&mosq->msgtime_mutex);
 
 	COMPAT_pthread_mutex_lock(&mosq->callback_mutex);
-	if(mosq->on_disconnect){
-		mosq->in_callback = true;
-		mosq->on_disconnect(mosq, mosq->userdata, reason_code);
-		mosq->in_callback = false;
-	}
-	if(mosq->on_disconnect_v5){
-		mosq->in_callback = true;
-		mosq->on_disconnect_v5(mosq, mosq->userdata, reason_code, properties);
-		mosq->in_callback = false;
-	}
+	on_disconnect = mosq->on_disconnect;
+	on_disconnect_v5 = mosq->on_disconnect_v5;
 	COMPAT_pthread_mutex_unlock(&mosq->callback_mutex);
+
+	if(on_disconnect){
+		mosq->in_callback = true;
+		on_disconnect(mosq, mosq->userdata, reason_code);
+		mosq->in_callback = false;
+	}
+	if(on_disconnect_v5){
+		mosq->in_callback = true;
+		on_disconnect_v5(mosq, mosq->userdata, reason_code, properties);
+		mosq->in_callback = false;
+	}
 	COMPAT_pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 }
 

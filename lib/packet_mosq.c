@@ -296,20 +296,24 @@ int packet__write(struct mosquitto *mosq)
 		if(((packet->command)&0xF6) == CMD_PUBLISH){
 			G_PUB_MSGS_SENT_INC(1);
 #ifndef WITH_BROKER
+			void (*on_publish)(struct mosquitto *, void *userdata, int mid);
+			void (*on_publish_v5)(struct mosquitto *, void *userdata, int mid, int reason_code, const mosquitto_property *props);
 			COMPAT_pthread_mutex_lock(&mosq->callback_mutex);
-			if(mosq->on_publish){
-				/* This is a QoS=0 message */
-				mosq->in_callback = true;
-				mosq->on_publish(mosq, mosq->userdata, packet->mid);
-				mosq->in_callback = false;
-			}
-			if(mosq->on_publish_v5){
-				/* This is a QoS=0 message */
-				mosq->in_callback = true;
-				mosq->on_publish_v5(mosq, mosq->userdata, packet->mid, 0, NULL);
-				mosq->in_callback = false;
-			}
+			on_publish = mosq->on_publish;
+			on_publish_v5 = mosq->on_publish_v5;
 			COMPAT_pthread_mutex_unlock(&mosq->callback_mutex);
+			if(on_publish){
+				/* This is a QoS=0 message */
+				mosq->in_callback = true;
+				on_publish(mosq, mosq->userdata, packet->mid);
+				mosq->in_callback = false;
+			}
+			if(on_publish_v5){
+				/* This is a QoS=0 message */
+				mosq->in_callback = true;
+				on_publish_v5(mosq, mosq->userdata, packet->mid, 0, NULL);
+				mosq->in_callback = false;
+			}
 		}else if(((packet->command)&0xF0) == CMD_DISCONNECT){
 			do_client_disconnect(mosq, MOSQ_ERR_SUCCESS, NULL);
 			packet__cleanup(packet);
