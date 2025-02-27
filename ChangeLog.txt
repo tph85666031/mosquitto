@@ -1,6 +1,10 @@
 2.0.21 - 2024-xx-xx
 ===================
 
+Security:
+- Fix leak on malicious SUBSCRIBE by authenticated client.
+  Closes eclipse #248.
+
 Broker:
 - Fix clients sending a RESERVED packet not being quickly disconnected.
   Closes #2325.
