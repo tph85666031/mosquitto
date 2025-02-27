@@ -12,6 +12,8 @@ Broker:
   being removed from memory if they are not subscribed to. Closes #3221.
 - Produce an error if invalid combinations of cafile/capath/certfile/keyfile
   are used. Closes #1836. Closes #3130.
+- Backport keepalive checking from develop to fix problems in current
+  implementation. Closes #3138.
 
 Client library:
 - Fix potential deadlock in mosquitto_sub if `-W` is used. Closes #3175.
