@@ -73,6 +73,7 @@ Section "Files" SecInstall
 	File "..\build\vcpkg_installed\x86-windows\bin\pthreadVC3.dll"
 	File "..\build\vcpkg_installed\x86-windows\bin\uv.dll"
 	File "..\build\vcpkg_installed\x86-windows\bin\websockets.dll"
+	File "..\build\vcpkg_installed\x86-windows\bin\zlib1.dll"
 
 	SetOutPath "$INSTDIR\devel"
 	File "..\build\lib\Release\mosquitto.lib"
