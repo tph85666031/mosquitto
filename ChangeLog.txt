@@ -1,3 +1,10 @@
+2.0.22 - 2025-xx-xx
+===================
+
+Broker:
+- Windows: Fix broker crash on startup if using `log_dest stdout`
+
+
 2.0.21 - 2025-03-06
 ===================
 
