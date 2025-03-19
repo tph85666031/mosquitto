@@ -3,6 +3,7 @@
 
 Broker:
 - Windows: Fix broker crash on startup if using `log_dest stdout`
+- Bridge: Fix idle_timeout never occurring for lazy bridges.
 
 
 2.0.21 - 2025-03-06
