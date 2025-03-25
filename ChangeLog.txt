@@ -4,6 +4,8 @@
 Broker:
 - Windows: Fix broker crash on startup if using `log_dest stdout`
 - Bridge: Fix idle_timeout never occurring for lazy bridges.
+- Fix case where max_queued_messages = 0 was not treated as unlimited.
+  Closes #3244.
 
 
 2.0.21 - 2025-03-06
