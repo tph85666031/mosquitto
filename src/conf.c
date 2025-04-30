@@ -356,6 +356,13 @@ void config__cleanup(struct mosquitto__config *config)
 	}
 }
 
+static void print_version(void)
+{
+	printf("mosquitto %s\n", VERSION);
+	printf("Copyright © 2025 Roger Light.\n");
+	printf("License EPL-2.0 OR BSD-3-Clause.\n");
+}
+
 static void print_usage(void)
 {
 	printf("mosquitto version %s\n\n", VERSION);
@@ -393,7 +400,10 @@ int config__parse_args(struct mosquitto__config *config, int argc, char *argv[])
 			config->daemon = true;
 		}else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")){
 			print_usage();
-			return MOSQ_ERR_INVAL;
+			return MOSQ_ERR_UNKNOWN;
+		}else if(!strcmp(argv[i], "--version")){
+			print_version();
+			return MOSQ_ERR_UNKNOWN;
 		}else if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--port")){
 			if(i<argc-1){
 				port_tmp = atoi(argv[i+1]);

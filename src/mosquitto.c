@@ -506,7 +506,11 @@ int main(int argc, char *argv[])
 
 	config__init(&config);
 	rc = config__parse_args(&config, argc, argv);
-	if(rc != MOSQ_ERR_SUCCESS) return rc;
+	if(rc == MOSQ_ERR_UNKNOWN){
+		return MOSQ_ERR_SUCCESS;
+	}else if(rc != MOSQ_ERR_SUCCESS){
+		return rc;
+	}
 	db.config = &config;
 
 	rc = keepalive__init();
