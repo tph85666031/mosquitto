@@ -465,6 +465,7 @@ int main(int argc, char *argv[])
 #endif
 	struct mosquitto *ctxt, *ctxt_tmp;
 
+	mosquitto_time_init();
 #if defined(WIN32) || defined(__CYGWIN__)
 	if(argc == 2){
 		if(!strcmp(argv[1], "run")){

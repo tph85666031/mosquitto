@@ -10,6 +10,8 @@ Broker:
 - Fix crash on receiving a $CONTROL message over a bridge, if
   per_listener_settings is set true and the bridge is carrying out topic
   remapping. Closes #3261.
+- Fix incorrect reference clock being selected on startup on Linux.
+  Closes #3238.
 
 Client library:
 - Fix C++ symbols being removed when compiled with link time optimisation.
