@@ -11,6 +11,11 @@ Broker:
   per_listener_settings is set true and the bridge is carrying out topic
   remapping. Closes #3261.
 
+Client library:
+- Fix C++ symbols being removed when compiled with link time optimisation.
+  Closes #3259.
+
+
 
 2.0.21 - 2025-03-06
 ===================

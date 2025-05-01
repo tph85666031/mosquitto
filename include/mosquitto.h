@@ -61,6 +61,12 @@ extern "C" {
 #	endif
 #endif
 
+#ifndef _MSC_VER
+#  define MOSQ_USED __attribute__((used))
+#else
+#  define MOSQ_USED
+#endif
+
 #include <stddef.h>
 #include <stdint.h>
 
