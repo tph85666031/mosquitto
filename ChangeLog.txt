@@ -7,6 +7,9 @@ Broker:
 - Fix case where max_queued_messages = 0 was not treated as unlimited.
   Closes #3244.
 - Fix `--version` exit code and output. Closes #3267.
+- Fix crash on receiving a $CONTROL message over a bridge, if
+  per_listener_settings is set true and the bridge is carrying out topic
+  remapping. Closes #3261.
 
 
 2.0.21 - 2025-03-06
