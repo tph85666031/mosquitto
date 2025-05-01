@@ -100,7 +100,7 @@ if (WITH_THREADING)
 	endif()
 endif()
 
-target_link_libraries(libmosquitto PRIVATE ${LIBRARIES})
+target_link_libraries(libmosquitto ${LIBRARIES})
 
 set_target_properties(libmosquitto PROPERTIES
 	OUTPUT_NAME mosquitto

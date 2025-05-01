@@ -23,6 +23,7 @@ Client library:
   errors.  This would cause the mosquitto_loop_start() thread to exit if no
   broker was available on the first connection attempt. This has been fixed.
   Closes #3258.
+- Fix linker errors on some architectures using cmake. Closes #3167.
 
 Tests:
 - Fix 08-ssl-connect-cert-auth-expired and 08-ssl-connect-cert-auth-revoked
