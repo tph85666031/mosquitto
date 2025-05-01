@@ -14,6 +14,10 @@ Broker:
 Client library:
 - Fix C++ symbols being removed when compiled with link time optimisation.
   Closes #3259.
+- TLS error handling was incorrectly setting a protocol error for non-TLS
+  errors.  This would cause the mosquitto_loop_start() thread to exit if no
+  broker was available on the first connection attempt. This has been fixed.
+  Closes #3258.
 
 
 
