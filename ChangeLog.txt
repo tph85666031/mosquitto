@@ -14,6 +14,7 @@ Broker:
   Closes #3238.
 - Fix reporting of client disconnections being incorrectly attributed to "out
   of memory". Closes #3253.
+- Fix compilation when using `WITH_OLD_KEEPALIVE`. Closes #3250.
 
 Client library:
 - Fix C++ symbols being removed when compiled with link time optimisation.

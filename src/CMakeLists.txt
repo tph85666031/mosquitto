@@ -113,6 +113,12 @@ if (WITH_PERSISTENCE)
 	add_definitions("-DWITH_PERSISTENCE")
 endif (WITH_PERSISTENCE)
 
+option(WITH_OLD_KEEPALIVE
+	"Use legacy keepalive check mechanism?" OFF)
+if (WITH_OLD_KEEPALIVE)
+	add_definitions("-DWITH_OLD_KEEPALIVE")
+endif (WITH_OLD_KEEPALIVE)
+
 option(WITH_SYS_TREE
 	"Include $SYS tree support?" ON)
 if (WITH_SYS_TREE)
