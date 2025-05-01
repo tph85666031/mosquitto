@@ -12,6 +12,8 @@ Broker:
   remapping. Closes #3261.
 - Fix incorrect reference clock being selected on startup on Linux.
   Closes #3238.
+- Fix reporting of client disconnections being incorrectly attributed to "out
+  of memory". Closes #3253.
 
 Client library:
 - Fix C++ symbols being removed when compiled with link time optimisation.
