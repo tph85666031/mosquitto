@@ -24,6 +24,9 @@ Client library:
   broker was available on the first connection attempt. This has been fixed.
   Closes #3258.
 
+Tests:
+- Fix 08-ssl-connect-cert-auth-expired and 08-ssl-connect-cert-auth-revoked
+  tests when running on a single CPU system. Closes #3230.
 
 
 2.0.21 - 2025-03-06
