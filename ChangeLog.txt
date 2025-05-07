@@ -16,6 +16,7 @@ Broker:
   of memory". Closes #3253.
 - Fix compilation when using `WITH_OLD_KEEPALIVE`. Closes #3250.
 - Add Windows linker file for the broker to the installer. Closes #3269.
+- Fix Websockets PING not being sent on Windows. Closes #3272.
 
 Client library:
 - Fix C++ symbols being removed when compiled with link time optimisation.
