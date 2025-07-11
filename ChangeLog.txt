@@ -19,6 +19,8 @@ Broker:
 - Fix Websockets PING not being sent on Windows. Closes #3272.
 - Fix problems with secure websockets. Closes #1211.
 - Fix crash on exit when using WITH_EPOLL=no. Closes #3302.
+- Fix clients being incorrectly expired when they have keepalive ==
+  max_keepalive. Closes #3226, #3286.
 
 Dynamic security plugin:
 - Fix mismatch memory free when saving config which caused memory tracking to
