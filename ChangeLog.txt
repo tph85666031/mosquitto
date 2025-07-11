@@ -18,6 +18,10 @@ Broker:
 - Add Windows linker file for the broker to the installer. Closes #3269.
 - Fix Websockets PING not being sent on Windows. Closes #3272.
 
+Dynamic security plugin:
+- Fix mismatch memory free when saving config which caused memory tracking to
+  be incorrect.
+
 Client library:
 - Fix C++ symbols being removed when compiled with link time optimisation.
   Closes #3259.
@@ -26,6 +30,7 @@ Client library:
   broker was available on the first connection attempt. This has been fixed.
   Closes #3258.
 - Fix linker errors on some architectures using cmake. Closes #3167.
+
 
 Tests:
 - Fix 08-ssl-connect-cert-auth-expired and 08-ssl-connect-cert-auth-revoked
