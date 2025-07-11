@@ -17,6 +17,7 @@ Broker:
 - Fix compilation when using `WITH_OLD_KEEPALIVE`. Closes #3250.
 - Add Windows linker file for the broker to the installer. Closes #3269.
 - Fix Websockets PING not being sent on Windows. Closes #3272.
+- Fix problems with secure websockets. Closes #1211.
 
 Dynamic security plugin:
 - Fix mismatch memory free when saving config which caused memory tracking to
