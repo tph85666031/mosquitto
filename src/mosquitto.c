@@ -638,6 +638,8 @@ int main(int argc, char *argv[])
 		(void)remove(config.pid_file);
 	}
 
+	mux__cleanup();
+
 	log__close(&config);
 	config__cleanup(db.config);
 	net__broker_cleanup();
