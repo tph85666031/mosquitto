@@ -42,6 +42,7 @@ Mosquitto can be installed from the homebrew project. See
 ## Debian
 * Mosquitto is now in Debian proper. There will be a short delay between a new
   release and it appearing in Debian as part of the normal Debian procedures.
+  The tracker for the package is at <https://tracker.debian.org/pkg/mosquitto>.
 * There are also Debian repositories provided by the mosquitto project, as
   described at <https://mosquitto.org/2013/01/mosquitto-debian-repository>
 
