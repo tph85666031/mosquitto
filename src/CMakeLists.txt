@@ -203,7 +203,7 @@ endif (WIN32)
 
 if (WITH_WEBSOCKETS)
 	if (STATIC_WEBSOCKETS)
-		set (MOSQ_LIBS ${MOSQ_LIBS} websockets_static)
+		set (MOSQ_LIBS ${MOSQ_LIBS} websockets_static libuv.a libev.a libcap.a)
 		if (WIN32)
 			set (MOSQ_LIBS ${MOSQ_LIBS} iphlpapi)
 			link_directories(${mosquitto_SOURCE_DIR})
